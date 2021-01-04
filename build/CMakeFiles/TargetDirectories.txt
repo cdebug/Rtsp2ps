@@ -1,0 +1,3 @@
+/opt/testdemos/rtsp2gb/build/CMakeFiles/rebuild_cache.dir
+/opt/testdemos/rtsp2gb/build/CMakeFiles/edit_cache.dir
+/opt/testdemos/rtsp2gb/build/CMakeFiles/rtsp2gb.dir
