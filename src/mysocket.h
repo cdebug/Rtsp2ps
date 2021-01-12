@@ -9,13 +9,13 @@
 class MySocket
 {
 public:
-    virtual int init(std::string, int, int) = 0;
+    virtual int init(string, int, int) = 0;
     virtual int sendData(uint8_t*, int) = 0;
-    std::string serverIp();
+    string serverIp();
     int serverPort();
     int localPort();
 protected:
-    std::string m_serverIp;
+    string m_serverIp;
     int m_serverPort = -1;
     int m_localPort = -1;
     int m_sockfd;

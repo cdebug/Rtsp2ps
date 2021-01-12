@@ -7,7 +7,7 @@ class UdpSocket : public MySocket
 public:
     UdpSocket() = default;
     ~UdpSocket() = default;
-    int init(std::string, int, int);
+    int init(string, int, int);
     int sendData(uint8_t*, int);
 };
 

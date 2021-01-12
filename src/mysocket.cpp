@@ -1,6 +1,6 @@
 #include "mysocket.h"
 
-std::string MySocket::serverIp()
+string MySocket::serverIp()
 {
     return m_serverIp;
 }

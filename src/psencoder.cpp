@@ -124,7 +124,7 @@ int PsEncoder::getLocalPort()
         return -1;
 }
 
-int PsEncoder::initSocket(std::string serverIp, int serverPort, int localPort)
+int PsEncoder::initSocket(string serverIp, int serverPort, int localPort)
 {
     if(m_sendSocket)
         return m_sendSocket->init(serverIp, serverPort, localPort);

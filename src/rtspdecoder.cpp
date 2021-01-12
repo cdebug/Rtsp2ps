@@ -22,12 +22,10 @@ int RtspDecoder::init()
 	av_dict_set(&opts, "stimeout", "9000000", 0);//设置超时3秒
 	if (avformat_open_input(&m_pFormatCtx, m_streamUrl.c_str(), NULL, &opts) != 0)
 	{
-		std::cout << "Couldn't open input stream." << m_streamUrl << std::endl;
 		return -1;
 	}
 	if (avformat_find_stream_info(m_pFormatCtx, NULL)<0)
 	{
-		std::cout << "Couldn't find stream information." << std::endl;
 		return -1;
 	}
 	m_videoindex = -1;
@@ -38,21 +36,20 @@ int RtspDecoder::init()
 		if (codec->codec_type == AVMEDIA_TYPE_VIDEO)
 		{
 			if(codec->codec_id != AV_CODEC_ID_H264)
-				std::cout << "video codec is not h264, CODE_ID=" << codec->codec_id << std::endl;
+				{}
 			else
 				m_videoindex = i;
 		}
 		if (codec->codec_type == AVMEDIA_TYPE_AUDIO)
 		{
 			if(codec->codec_id != AV_CODEC_ID_AAC)
-				std::cout << "audio codec is not aac, CODE_ID=" << codec->codec_id << std::endl;
+				{}
 			else
 				m_audioindex = i;
 		}
 	}
 	if (m_videoindex == -1 && m_audioindex == -1)
 	{
-		std::cout << "Didn't find a video or audio stream." << std::endl;
 		return -1;
 	}
 	//Open Video Ctx
@@ -62,17 +59,13 @@ int RtspDecoder::init()
 		pVideoCodec = avcodec_find_decoder(m_pVideoCodecCtx->codec_id);
 		if (pVideoCodec == NULL)
 		{
-			std::cout << "Codec not found." << std::endl;
 			return -1;
 		}
 		if (avcodec_open2(m_pVideoCodecCtx, pVideoCodec, NULL)<0)
 		{
-			std::cout << "Could not open codec." << std::endl;
 			return -1;
 		}
 	}
-	else
-		std::cout << "No video stream" << std::endl;
 	//Open Audio Ctx
 	if(m_audioindex >= 0)
 	{
@@ -80,17 +73,14 @@ int RtspDecoder::init()
 		pAudioCodec = avcodec_find_decoder(m_pAudioCodecCtx->codec_id);
 		if (pAudioCodec == NULL)
 		{
-			std::cout << "Codec not found." << std::endl;
 			return -1;
 		}
 		if (avcodec_open2(m_pAudioCodecCtx, pAudioCodec, NULL)<0)
 		{
-			std::cout << "Could not open codec." << std::endl;
 			return -1;
 		}
 	}
 	else
-		std::cout << "No audio stream" << std::endl;
 	//Output Info---输出一些文件（RTSP）信息  
 	// av_dump_format(m_pFormatCtx, 0, m_streamUrl.c_str(), 0);
     return 0;
@@ -98,8 +88,7 @@ int RtspDecoder::init()
 
 void RtspDecoder::executeProcess()
 {
-	std::cout << "RtspDecoder::executeProcess" << std::endl;
-	std::shared_ptr<PsEncoder> encoder = m_encoder.lock();
+	shared_ptr<PsEncoder> encoder = m_encoder.lock();
 	if(encoder)
 	{
 		encoder->setSampleRate(m_pFormatCtx->streams[m_audioindex]->codec->sample_rate);
@@ -125,7 +114,7 @@ void RtspDecoder::executeProcess()
 
 void RtspDecoder::sendFrameData(uint8_t* data, int len, FrameType type)
 {
-	std::shared_ptr<PsEncoder> encoder = m_encoder.lock();
+	shared_ptr<PsEncoder> encoder = m_encoder.lock();
 	if(encoder)
 		encoder->sendFrameData(data, len, type);
 }
@@ -135,7 +124,7 @@ void RtspDecoder::setStreamUrl(std::string url)
     m_streamUrl = url;
 }
 
-void RtspDecoder::setStreamEncoder(std::shared_ptr<PsEncoder> encoder)
+void RtspDecoder::setStreamEncoder(shared_ptr<PsEncoder> encoder)
 {
     m_encoder = encoder;
 }

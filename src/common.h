@@ -11,6 +11,10 @@
 #include <memory>
 #include <thread>
 #include <mutex>
+using namespace std;
+
+#define SOCK_PORT_MIN 20000
+#define SOCK_PORT_MAX 30000
 
 enum SocketProtocol{
     PROTOCOL_UDP,

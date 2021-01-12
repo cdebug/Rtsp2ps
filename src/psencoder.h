@@ -1,14 +1,13 @@
 #ifndef PSENCODER_H
 #define PSENCODER_H
 #include "mysocket.h"
-#include "common.h"
 
 class PsEncoder
 {
 public:
     PsEncoder(SocketProtocol);
     ~PsEncoder();
-    int initSocket(std::string, int, int);
+    int initSocket(string, int, int);
     int sendFrameData(uint8_t*, int, FrameType);
     int sendVideoData(uint8_t*, int);
     int sendAudioData(uint8_t*, int);
@@ -52,8 +51,7 @@ private:
     bool m_idrBuffInited = false;
     bool m_pBuffInited = false;
 
-    std::shared_ptr<MySocket> m_sendSocket;
-
+    shared_ptr<MySocket> m_sendSocket;
     uint8_t m_frameData[409600];
     int m_frameLen;
     int m_sampleRateType;
